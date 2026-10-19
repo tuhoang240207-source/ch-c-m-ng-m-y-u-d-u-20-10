@@ -158,7 +158,7 @@
         </div>
     </div>
 
-    <script>
+   <script>
         const message = "Gửi Mẹ yêu dấu của con,\n\nNhân ngày Phụ nữ Việt Nam 20/10, con xin gửi tới Mẹ những lời chúc ấm áp và tuyệt vời nhất. Chúc Mẹ luôn dồi dào sức khỏe, lúc nào cũng an nhiên, tươi vui và tràn ngập hạnh phúc.\n\nCảm ơn Mẹ vì đã luôn hy sinh, vất vả vun vén và dành trọn tình yêu thương cho gia đình. Mẹ luôn là điểm tựa vững chắc nhất của con trên mọi hành trình. Chúc Mẹ một ngày 20/10 thật nhiều niềm vui và luôn bình an! 🌸✨";
 
         let isOpened = false;
@@ -177,25 +177,48 @@
             var music = document.getElementById("bg-music");
             var btn = document.getElementById("btn-toggle");
 
-            if (!isOpened) {
+            // Mở/ẩn thư trước để đảm bảo giao diện luôn chạy
+            if (letter.style.display === "none" || letter.style.display === "") {
                 letter.style.display = "block";
-                music.play().catch(e => console.log("Audio play blocked"));
-                typeEffect();
                 btn.textContent = "Thu Gọn Thư 💌";
-                isOpened = true;
-            } else {
-                if (letter.style.display === "none") {
-                    letter.style.display = "block";
-                    btn.textContent = "Thu Gọn Thư 💌";
-                } else {
-                    letter.style.display = "none";
-                    btn.textContent = "Bấm Vào Đây Để Mở Thư ✉️";
+                
+                if (!isOpened) {
+                    typeEffect();
+                    isOpened = true;
                 }
+                
+                // Thử phát nhạc, nếu bị trình duyệt chặn thì bỏ qua chứ không làm lỗi nút
+                if (music) {
+                    music.play().catch(function(error) {
+                        console.log("Trình duyệt chặn tự động phát nhạc:", error);
+                    });
+                }
+            } else {
+                letter.style.display = "none";
+                btn.textContent = "Bấm Vào Đây Để Mở Thư ✉️";
             }
         }
 
         function createPetal() {
             const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            const size = Math.random() * 15 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 5 + 5 + 's';
+            
+            document.body.appendChild(petal);
+            
+            setTimeout(() => {
+                petal.remove();
+            }, 10000);
+        }
+
+        setInterval(createPetal, 350);
+    </script>
             petal.classList.add('petal');
             
             const size = Math.random()
