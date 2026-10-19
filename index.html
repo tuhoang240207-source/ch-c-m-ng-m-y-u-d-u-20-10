@@ -23,7 +23,6 @@
             padding: 20px;
         }
 
-        /* Hiệu ứng cánh hoa rơi */
         .petal {
             position: absolute;
             background-color: #ffb6c1;
@@ -44,7 +43,6 @@
             }
         }
 
-        /* Thẻ Container chính */
         .card-container {
             background: rgba(255, 255, 255, 0.92);
             padding: 40px 30px;
@@ -104,7 +102,6 @@
             box-shadow: 0 10px 25px rgba(233, 30, 99, 0.5);
         }
 
-        /* Khung nội dung lời chúc */
         .letter-content {
             display: none;
             margin-top: 25px;
@@ -135,3 +132,70 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card-container">
+        <div class="heart-icon">💐</div>
+        <h1>HAPPY VIETNAMESE WOMEN'S DAY</h1>
+        <div class="subtitle">Chúc Mừng 20/10 Mẹ Yêu Dấu 🌸</div>
+
+        <button class="btn-open" id="btn-toggle" onclick="toggleLetter()">Bấm Vào Đây Để Mở Thư ✉️</button>
+
+        <div class="letter-content" id="letter">
+            <div class="typing-text" id="typewriter"></div>
+            <div class="footer-text">— Con yêu Mẹ rất nhiều! ❤️ —</div>
+        </div>
+    </div>
+
+    <script>
+        const message = "Gửi Mẹ yêu dấu của con,\n\nNhân ngày Phụ nữ Việt Nam 20/10, con xin gửi tới Mẹ những lời chúc ấm áp và tuyệt vời nhất. Chúc Mẹ luôn dồi dào sức khỏe, lúc nào cũng an nhiên, tươi vui và tràn ngập hạnh phúc.\n\nCảm ơn Mẹ vì đã luôn hy sinh, vất vả vun vén và dành trọn tình yêu thương cho gia đình. Mẹ luôn là điểm tựa vững chắc nhất của con trên mọi hành trình. Chúc Mẹ một ngày 20/10 thật nhiều niềm vui và luôn bình an! 🌸✨";
+
+        let isOpened = false;
+        let charIndex = 0;
+
+        function typeEffect() {
+            if (charIndex < message.length) {
+                document.getElementById("typewriter").textContent += message.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeEffect, 40);
+            }
+        }
+
+        function toggleLetter() {
+            var letter = document.getElementById("letter");
+            var music = document.getElementById("bg-music");
+            var btn = document.getElementById("btn-toggle");
+
+            if (!isOpened) {
+                letter.style.display = "block";
+                music.play().catch(e => console.log("Audio play blocked"));
+                typeEffect();
+                btn.textContent = "Thu Gọn Thư 💌";
+                isOpened = true;
+            } else {
+                if (letter.style.display === "none") {
+                    letter.style.display = "block";
+                    btn.textContent = "Thu Gọn Thư 💌";
+                } else {
+                    letter.style.display = "none";
+                    btn.textContent = "Bấm Vào Đây Để Mở Thư ✉️";
+                }
+            }
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            const size = Math.random()
